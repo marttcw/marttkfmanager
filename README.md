@@ -1,12 +1,10 @@
 # marttkfmanager
 A file manager made with tk
 
-README:
-
 # Keyboard bindings:
 
-Toggle Showing Hidden Files:    Ctrl-h
-Refresh:                        Ctrl-r
+* Toggle Showing Hidden Files:    Ctrl-h
+* Refresh:                        Ctrl-r
 
 # Changelog
 
