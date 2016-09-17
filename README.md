@@ -3,7 +3,7 @@ A file manager made with tk
 
 ## Keyboard bindings:
 
- Keybind's Aciton                           | Bind
+ Keybind's Actions                          | Binds
  -------------------------------------------|-------------
  Toggle Showing Hidden Files:               | `Ctrl-h`
  Refresh:                                   | `Ctrl-r`
