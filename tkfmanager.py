@@ -1,5 +1,5 @@
 # MartTKfManager - Martin's File Manager (TK version)
-version = "ALPHA v0.1.0"
+version = "ALPHA v0.1.2"
 cur_year = "2016"
 
 from tkinter import *
@@ -11,6 +11,7 @@ pos = 0
 home = os.path.expanduser("~") # home directory
 history = [os.getcwd()]
 show_hidden_files = False
+access_info = ''
 
 # Dependencies (Based on Debian package names,
 # these may differ in other distros)
@@ -41,9 +42,7 @@ def human_readable_size(new_size):
 
 def sort_file(fetch):                   # fetch == 'TAG': Returns the tags_conf | fetch == 'EXT': Returns the ext_conf | fetch == 'EXT_NAME': Returns the ext_conf_n
     conf_file = conf_read()
-    tags_conf = {}
-    ext_conf = {}
-    ext_conf_n = {}
+    tags_conf, ext_conf, ext_conf_n = {}, {}, {}
     tag_in = 'NONE'
     for itr in range(0, len(conf_file)):
         if conf_file[itr] == '[TAG]':
@@ -68,8 +67,24 @@ def sort_file(fetch):                   # fetch == 'TAG': Returns the tags_conf 
     elif fetch == 'EXT_NAME':
         return ext_conf_n
 
-def refresh(main):
-    global dir_info_01, dir_info_02, tree
+def dir_change_action(main, to_dir, pos_ch):
+    global dir_info_01, dir_info_02, tree, pos, history, access_info
+    pos += pos_ch
+    if to_dir == history and ((pos != 0 and pos_ch == -1) or (pos != (len(history) -1) and pos_ch == 1)):
+        try:
+            os.chdir(history[pos])
+        except:
+            pass
+    elif to_dir != 0: 
+        history.append(os.getcwd())
+        try:
+            os.chdir(to_dir)
+            access_info=''
+        except:
+            if os.path.isdir(to_dir) == True:
+                access_info='     Access Denied'
+            else:
+                access_info='     Directory don\'t exist'
     main.title("MartTKfManager - "+os.getcwd())
     dir_info_01.destroy()
     dir_info_02.destroy()
@@ -79,8 +94,7 @@ def refresh(main):
 def about():
     about_win = Tk()
     about_win.title("MartTKfManager - About")
-    width = 400
-    height = 100 
+    width, height = 400, 100
     about_win.resizable(width=False, height=False)
     about_win.geometry("%dx%d+%d+%d" % (width, height, 0, 0))
     about_text = Label(about_win, text="MartTKfManager (Martin's File Manager (TK version))\nVersion: "+version+"\nCopyright (c) "+cur_year)
@@ -92,23 +106,12 @@ def about():
 
 def main_buttons(main):
     def bck_dir():
-        global pos, history
-        if pos != 0:
-            pos -= 1
-            os.chdir(history[pos])
-            refresh(main)
+        dir_change_action(main, history, -1)
     def frw_dir():
-        global pos, history
-        if pos != (len(history) - 1):
-            pos += 1
-            os.chdir(history[pos])
-            refresh(main)
+        dir_change_action(main, history, 1)
     def home_dir():
-        global home, pos, history
-        history.append(os.getcwd())
-        pos += 1
-        os.chdir(home)
-        refresh(main)
+        global home
+        dir_change_action(main, home, 1)
 
     button_bck = Button(main, text="<-", command=bck_dir)
     button_bck.grid(row=0, column=0)
@@ -122,22 +125,13 @@ def main_buttons(main):
     button_quit.grid(row=0, column=4)
 
 def main_list_dir(main):
-    global history, dir_info_01, dir_info_02, show_hidden_files, tree
+    global history, dir_info_01, dir_info_02, show_hidden_files, tree, id_pos, access_info
     def goto_path(a):
-        global pos, history
-        history.append(os.getcwd())
-        pos += 1
-        os.chdir(cur_dir_entry.get())
-        refresh(main)
+        dir_change_action(main, cur_dir_entry.get(), 1)
 
     def dir_change(a):
-        global pos, history
-        curItem = tree.item(tree.focus())
-        curItemName = curItem['text']
-        history.append(os.getcwd())
-        pos += 1
-        os.chdir(curItemName)
-        refresh(main)
+        curItem = tree.item(tree.focus())['text']
+        dir_change_action(main, curItem, 1)
 
     def ext_prog(a): # EXT_RUN
         file_focus = tree.item(tree.focus())['text']
@@ -156,33 +150,41 @@ def main_list_dir(main):
             ext_bind = tags_conf[ext_conf['*']].split(' ')
         ext_bind.append(os.getcwd()+'/'+file_focus)
         subprocess.Popen(ext_bind)                      # Popen: files open in another process (preferred) | call: files open within this process
+        dir_change_action(main, 0, 0)
 
     def up_dir(a):
-        global pos, history
-        history.append(os.getcwd())
-        pos += 1
-        os.chdir("..")
-        refresh(main)
+        dir_change_action(main, '..', 1)
 
     def toggle_hidden(a):
         global show_hidden_files
         show_hidden_files = not show_hidden_files
-        refresh(main)
+        dir_change_action(main, 0, 0)
+
+    def bind_cur_dir_entry(a):
+        cur_dir_entry.focus_set()
 
     def refresh_dir(a):
-        refresh(main)
+        dir_change_action(main, 0, 0)
+
+    def row_change(a, pos_change, id_list):
+        global id_pos
+        tree.focus_set()
+        id_pos += pos_change
+        if id_pos < 0 or pos_change == 0:
+            id_pos = 0
+        elif id_pos > len(id_list) - 1 or pos_change == 2:
+            id_pos = len(id_list) - 1
+        tree.focus(id_list[id_pos])
 
     cur_dir_entry = Entry(main, width=100)
     cur_dir_entry.grid(row=1, column=0, columnspan=10)
     cur_dir_entry.delete(0, 'end') 
     cur_dir_entry.insert(0, os.getcwd())
-    cur_dir_entry.focus_set()
     cur_dir_entry.bind('<Return>', goto_path)
     cde_button = Button(main, text="Go", width=10, command=lambda:goto_path(0))
     cde_button.grid(row=1, column=11)
 
-    row_place = 2
-    col_place = 0
+    row_place, col_place = 2, 0
     dir_ls = os.listdir(os.getcwd())
     dir_ls.sort()
 
@@ -201,9 +203,12 @@ def main_list_dir(main):
     tree.heading('uid_gid', text='Owner/Group')
     tree.column('ext', width=140, anchor='w')
     tree.heading('ext', text='File type')
-    total_dir = 0
-    total_file = 0
-    tree.insert('', 'end', text='..', tag=('up'), values=('UP\xa0DIRECTORY '))
+    total_dir, total_file, id_pos = 0, 0, 0
+    id_list = []
+    up_id = tree.insert('', 'end', text='..', tag=('up'), values=('UP\xa0DIRECTORY '))
+    id_list.append(up_id)
+    tree.focus_set()
+    tree.focus(id_list[id_pos])
     for itr in range(0, len(dir_ls)):
         if (show_hidden_files == False and dir_ls[itr][0] != '.') or (show_hidden_files == True):
             las_mod_time = str(time.ctime(os.stat(dir_ls[itr]).st_mtime))
@@ -214,7 +219,8 @@ def main_list_dir(main):
             except:
                 uid_gid_get = str(os.stat(dir_ls[itr]).st_uid)+'/'+str(os.stat(dir_ls[itr]).st_gid) # if uid/gid is not found
             if os.path.isdir(dir_ls[itr]) == True:
-                tree.insert('', 'end', text=dir_ls[itr], tag=('dir'), values=('DIRECTORY '+las_mod_time+' '+uid_gid_get+' DIRECTORY')) 
+                r_id = tree.insert('', 'end', text=dir_ls[itr], tag=('dir'), values=('DIRECTORY '+las_mod_time+' '+uid_gid_get+' DIRECTORY')) 
+                id_list.append(r_id)
                 total_dir += 1
             else:   # EXT_NAME
                 if dir_ls[itr][-2:] == 'rc':
@@ -230,25 +236,37 @@ def main_list_dir(main):
                 except:
                     file_ext_n = ext_conf_n['*']
                 file_ext_n = re.sub(r"\s+", '\xa0', file_ext_n)
-                tree.insert('', 'end', text=dir_ls[itr], tag=('file'), values=(human_readable_size(os.stat(dir_ls[itr]).st_size)+' '+las_mod_time+' '+uid_gid_get+' '+file_ext_n))
+                r_id = tree.insert('', 'end', text=dir_ls[itr], tag=('file'), values=(human_readable_size(os.stat(dir_ls[itr]).st_size)+' '+las_mod_time+' '+uid_gid_get+' '+file_ext_n))
+                id_list.append(r_id)
                 total_file += 1
     tree.tag_configure('dir', background='#94bff3')
     tree.tag_configure('up', background='#d9d9d9')
     tree.tag_bind('dir', '<Double-Button-1>', dir_change)
     tree.tag_bind('file', '<Double-Button-1>', ext_prog)
     tree.tag_bind('up', '<Double-Button-1>', up_dir)
+    tree.tag_bind('dir', '<Right>', dir_change)
+    tree.tag_bind('file', '<Right>', ext_prog)
+    tree.tag_bind('up', '<Right>', up_dir)
     scrollbar.config(command=tree.yview)
 
     sizestat = os.statvfs('/')
-    lower_info_text = ' Total directories: '+str(total_dir)+'    Total files: '+str(total_file)+'    Hidden files shown: '+str(show_hidden_files)+'    Free Space: '+str(human_readable_size(sizestat.f_frsize * sizestat.f_bfree))+'    Total Space: '+str(human_readable_size(sizestat.f_frsize * sizestat.f_blocks))
-    dir_info_01 = Label(main, text='Total files/directories: '+str(len(dir_ls)))
+    lower_info_text = ' Total directories: '+str(total_dir)+'    Total files: '+str(total_file)+'    Hidden files shown: '+str(show_hidden_files)+'    Free Space: '+str(human_readable_size(sizestat.f_frsize * sizestat.f_bfree))+'    Total Space: '+str(human_readable_size(sizestat.f_frsize * sizestat.f_blocks))+access_info
+    dir_info_01 = Label(main, text='Total files/directories: '+str(total_dir+total_file))
     dir_info_02 = Label(main, text=lower_info_text)
     dir_info_01.grid(row=0, column=6, columnspan=8, sticky='w')
     dir_info_02.grid(row=20, column=0, columnspan=8, sticky='w')
 
     main.bind('<Control-h>', toggle_hidden)
     main.bind('<Control-r>', refresh_dir)
-    # tree, scrollbar, dir_info_01, dir_info_02
+    main.bind('<Control-l>', bind_cur_dir_entry)
+    main.bind('<Left>', up_dir)
+    main.bind('<Up>', lambda event: row_change(event, -1, id_list))
+    main.bind('<Down>', lambda event: row_change(event, 1, id_list))
+    main.bind('<Control-Up>', lambda event: row_change(event, -10, id_list)) 
+    main.bind('<Control-Down>', lambda event: row_change(event, 10, id_list))
+    main.bind('<Home>', lambda event: row_change(event, 0, id_list))
+    main.bind('<End>', lambda event: row_change(event, 2, id_list))
+    main.bind('<Control-q>', sys.exit)
 
 def ttk_style(main):
     Style().configure("TButton", xpad=12, relief="flat", background="#ccc")
@@ -259,8 +277,7 @@ def main_window():
     os.chdir(home) 
     main = Tk()
     main.title("MartTKfManager - "+os.getcwd())
-    width = 970
-    height = 470
+    width, height = 970, 470
     main.geometry("%dx%d+%d+%d" % (width, height, 0, 0))
 
     main_buttons(main)
