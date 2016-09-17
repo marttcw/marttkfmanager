@@ -27,7 +27,7 @@ Based on Debian package names, these may differ in other distros.
 
 ### 2016 SEP 17 ALPHA v0.1.2 - Changelog:
 
-* Less redundent code - Cut down of around ~45 lines of code (From 310 to 261 LOC (including removing of 5 lined dependency comment))
+* Less redundent code - Cut down of around ~40 SLOC (From 310 to 261 LOC/238 SLOC (including removing of 9 lined dependency comment))
  * Uses lambda instead in replace of simpler functions
 * Display 'Directory don\'t exist' if user tries to enter a non-existent directory
 
