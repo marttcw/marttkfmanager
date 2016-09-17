@@ -15,11 +15,20 @@ A file manager made with tk
  Move scrollbar up/down:                    | `Pageup/Pagedown`
  Quit program:                              | `Ctrl-q`
 
+## Dependencies
+
+Based on Debian package names, these may differ in other distros.
+
+* python3
+* tkinter
+* python-pil
+
 ## Changelog
 
 ### 2016 SEP 17 ALPHA v0.1.2 - Changelog:
 
-* Less redundent code
+* Less redundent code - Cut down of around ~45 lines of code (From 310 to 261 LOC (including removing of 5 lined dependency comment))
+ * Uses lambda instead in replace of simpler functions
 * Display 'Directory don\'t exist' if user tries to enter a non-existent directory
 
 ### 2016 SEP 16 ALPHA v0.1.1 - Changelog:
@@ -54,4 +63,10 @@ A file manager made with tk
  * Ability to use alternative program/commands
 * Add configuration button and window
 * About window style change
+
+### Future Dependencies
+
+* python-gstreamer
+* python-gobject
+
 

@@ -13,15 +13,6 @@ history = [os.getcwd()]
 show_hidden_files = False
 access_info = ''
 
-# Dependencies (Based on Debian package names,
-# these may differ in other distros)
-
-# python3
-# tkinter            <-- For GUI
-# python-gstreamer   <-- For video
-# python-gobject     <-- playing
-# python-pil         <-- For images
-
 def conf_read():
     try:
         cf_file = open(home+'/.marttkfmanagerrc', 'r')
@@ -67,7 +58,7 @@ def sort_file(fetch):                   # fetch == 'TAG': Returns the tags_conf 
     elif fetch == 'EXT_NAME':
         return ext_conf_n
 
-def dir_change_action(main, to_dir, pos_ch):
+def dir_change_action(event, main, to_dir, pos_ch):
     global dir_info_01, dir_info_02, tree, pos, history, access_info
     pos += pos_ch
     if to_dir == history and ((pos != 0 and pos_ch == -1) or (pos != (len(history) -1) and pos_ch == 1)):
@@ -105,19 +96,12 @@ def about():
     about_win.mainloop()
 
 def main_buttons(main):
-    def bck_dir():
-        dir_change_action(main, history, -1)
-    def frw_dir():
-        dir_change_action(main, history, 1)
-    def home_dir():
-        global home
-        dir_change_action(main, home, 1)
-
-    button_bck = Button(main, text="<-", command=bck_dir)
+    global home
+    button_bck = Button(main, text="<-", command=lambda: dir_change_action(0, main, history, -1))
     button_bck.grid(row=0, column=0)
-    button_frw = Button(main, text="->", command=frw_dir)
+    button_frw = Button(main, text="->", command=lambda: dir_change_action(0, main, history, 1))
     button_frw.grid(row=0, column=1)
-    button_home = Button(main, text="~", command=home_dir)
+    button_home = Button(main, text="~", command=lambda: dir_change_action(0, main, home, 1))
     button_home.grid(row=0, column=2)
     button_home = Button(main, text="About", command=about)
     button_home.grid(row=0, column=3)
@@ -126,14 +110,7 @@ def main_buttons(main):
 
 def main_list_dir(main):
     global history, dir_info_01, dir_info_02, show_hidden_files, tree, id_pos, access_info
-    def goto_path(a):
-        dir_change_action(main, cur_dir_entry.get(), 1)
-
-    def dir_change(a):
-        curItem = tree.item(tree.focus())['text']
-        dir_change_action(main, curItem, 1)
-
-    def ext_prog(a): # EXT_RUN
+    def ext_prog(event): # EXT_RUN
         file_focus = tree.item(tree.focus())['text']
         if file_focus[-2:] == 'rc':
             file_ext = 'rc' 
@@ -150,23 +127,17 @@ def main_list_dir(main):
             ext_bind = tags_conf[ext_conf['*']].split(' ')
         ext_bind.append(os.getcwd()+'/'+file_focus)
         subprocess.Popen(ext_bind)                      # Popen: files open in another process (preferred) | call: files open within this process
-        dir_change_action(main, 0, 0)
+        dir_change_action(event, main, 0, 0)
 
-    def up_dir(a):
-        dir_change_action(main, '..', 1)
-
-    def toggle_hidden(a):
+    def toggle_hidden(event):
         global show_hidden_files
         show_hidden_files = not show_hidden_files
-        dir_change_action(main, 0, 0)
+        dir_change_action(event, main, 0, 0)
 
-    def bind_cur_dir_entry(a):
+    def bind_cur_dir_entry(event):
         cur_dir_entry.focus_set()
 
-    def refresh_dir(a):
-        dir_change_action(main, 0, 0)
-
-    def row_change(a, pos_change, id_list):
+    def row_change(event, pos_change, id_list):
         global id_pos
         tree.focus_set()
         id_pos += pos_change
@@ -180,8 +151,8 @@ def main_list_dir(main):
     cur_dir_entry.grid(row=1, column=0, columnspan=10)
     cur_dir_entry.delete(0, 'end') 
     cur_dir_entry.insert(0, os.getcwd())
-    cur_dir_entry.bind('<Return>', goto_path)
-    cde_button = Button(main, text="Go", width=10, command=lambda:goto_path(0))
+    cur_dir_entry.bind('<Return>', lambda event: dir_change_action(event, main, cur_dir_entry.get(), 1))
+    cde_button = Button(main, text="Go", width=10, command=lambda: dir_change_action(0, main, cur_dir_entry.get(), 1))
     cde_button.grid(row=1, column=11)
 
     row_place, col_place = 2, 0
@@ -241,12 +212,12 @@ def main_list_dir(main):
                 total_file += 1
     tree.tag_configure('dir', background='#94bff3')
     tree.tag_configure('up', background='#d9d9d9')
-    tree.tag_bind('dir', '<Double-Button-1>', dir_change)
+    tree.tag_bind('dir', '<Double-Button-1>', lambda event: dir_change_action(event, main, tree.item(tree.focus())['text'], 1))
     tree.tag_bind('file', '<Double-Button-1>', ext_prog)
-    tree.tag_bind('up', '<Double-Button-1>', up_dir)
-    tree.tag_bind('dir', '<Right>', dir_change)
+    tree.tag_bind('up', '<Double-Button-1>', lambda event: dir_change_action(event, main, '..', 1))
+    tree.tag_bind('dir', '<Right>', lambda event: dir_change_action(event, main, tree.item(tree.focus())['text'], 1))
     tree.tag_bind('file', '<Right>', ext_prog)
-    tree.tag_bind('up', '<Right>', up_dir)
+    tree.tag_bind('up', '<Right>', lambda event: dir_change_action(event, main, '..', 1))
     scrollbar.config(command=tree.yview)
 
     sizestat = os.statvfs('/')
@@ -257,9 +228,9 @@ def main_list_dir(main):
     dir_info_02.grid(row=20, column=0, columnspan=8, sticky='w')
 
     main.bind('<Control-h>', toggle_hidden)
-    main.bind('<Control-r>', refresh_dir)
+    main.bind('<Control-r>', lambda event: dir_change_action(event, main, 0, 0))
     main.bind('<Control-l>', bind_cur_dir_entry)
-    main.bind('<Left>', up_dir)
+    main.bind('<Left>', lambda event: dir_change_action(event, main, '..', 1))
     main.bind('<Up>', lambda event: row_change(event, -1, id_list))
     main.bind('<Down>', lambda event: row_change(event, 1, id_list))
     main.bind('<Control-Up>', lambda event: row_change(event, -10, id_list)) 
