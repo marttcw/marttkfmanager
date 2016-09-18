@@ -1,5 +1,5 @@
 # MartTKfManager - Martin's File Manager (TK version)
-version = "ALPHA v0.1.2"
+version = "ALPHA v0.1.3"
 cur_year = "2016"
 
 from tkinter import *
