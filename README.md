@@ -25,6 +25,12 @@ Based on Debian package names, these may differ in other distros.
 
 ## Changelog
 
+### 2016 SEP 18 ALPHA v0.1.3 - Changelog:
+* Fixed pos variable going out of range of history list
+* Fixed mistake where history is set at current directory and not home
+* Reduced LOC from 261 LOC to 252 LOC - No more variable assignment on top buttons and about label and button
+* Renamed tkfmanager.py to marttkfmanager.py
+
 ### 2016 SEP 17 ALPHA v0.1.2 - Changelog:
 
 * Less redundent code - Cut down of around ~40 SLOC (From 310 to 261 LOC/238 SLOC (including removing of 9 lined dependency comment))
