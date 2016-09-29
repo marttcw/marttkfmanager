@@ -25,6 +25,23 @@ Based on Debian package names, these may differ in other distros.
 
 ## Changelog
 
+### 2016 SEP 29 ALPHA v2.0.0 - Changelog:
+* It can now do multiple selection of items (files/directories)
+ * Used selection instead of focus
+* Added duplication feature in menu
+* Added renaming feature in menu
+* Added delete feature in menu
+* Widgets are inside either the 2 frames
+* Resizeable directory list
+* Layout change
+
+### 2016 SEP 28 ALPHA v0.1.5 - Changelog:
+* Added the ability to refresh and show/hide hidden files on right click menu
+
+### 2016 SEP 21 ALPHA v0.1.4 - Changelog:
+* Add right click menu
+ * Ability to use alternative program/commands
+
 ### 2016 SEP 18 ALPHA v0.1.3 - Changelog:
 * Fixed pos variable going out of range of history list
 * Fixed mistake where history is set at current directory and not home
@@ -61,12 +78,10 @@ Based on Debian package names, these may differ in other distros.
 ## To-Do; Plans for later releases:
 
 * Add find/search entrybox
-* Add right click menu
+* Right click menu future features
  * Ability to delete file 
  * Ability to move file 
- * Ability to rename file 
  * Ability to copy file 
- * Ability to use alternative program/commands
 * Add configuration button and window
 * About window style change
 
