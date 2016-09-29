@@ -23,9 +23,13 @@ Based on Debian package names, these may differ in other distros.
 * tkinter
 * python-pil
 
+## Configuration
+
+It's important to put the "marttkfmanagerrc" file in your home directory as ".marttkfmanagerrc" if you want to have a proper configuration file.
+
 ## Changelog
 
-### 2016 SEP 29 ALPHA v2.0.0 - Changelog:
+### 2016 SEP 29 ALPHA v0.2.0 - Changelog:
 * It can now do multiple selection of items (files/directories)
  * Used selection instead of focus
 * Added duplication feature in menu
