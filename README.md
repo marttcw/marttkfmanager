@@ -22,12 +22,74 @@ Based on Debian package names, these may differ in other distros.
 * python3
 * tkinter
 * python-pil
+* python3-dev 
+* ffmpeg (maybe)
+
+In Debian/Ubuntu, install those gstreamer1.0 dependencies as follow:
+
+```
+sudo apt install python-gi python3-gi \
+    gstreamer1.0-tools \
+    gir1.2-gstreamer-1.0 \
+    gir1.2-gst-plugins-base-1.0 \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-ugly \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-libav
+```
+
+Have to be installed outside of Debian repository - use python3-pip:
+
+* pyglet (maybe)
+* pydub (maybe)
+* sudo pip3 install pyglet pydub 
+
+Pip3 setup:
+
+* pip3 install --upgrade pip setuptools
 
 ## Configuration
 
 It's important to put the "marttkfmanagerrc" file in your home directory as ".marttkfmanagerrc" if you want to have a proper configuration file.
 
-## Changelog
+## Changelog - BETA
+
+### 2016 NOV 13 BETA v0.1.5 - Changelog:
+* Position of the Music Player changed from right-side to bottom
+* Added music info, position, and duration
+* Top button and Entry re-style/position
+* Partial Fix for the opening video program via Button 1 while side-video player is playing (can still crash in some circumstances)
+* Added rewind (<<) and forward (>>) seeker buttons 
+* Added stop button
+
+### 2016 NOV 12 BETA v0.1.4 - Changelog:
+* Video player width fix
+* Fixed Video player crash
+* Text viewer only open on .txt files now
+
+### 2016 NOV 10 BETA v0.1.3 - Changelog:
+* Audio devices limited to 1
+* Video player added
+
+### 2016 OCT 25 BETA v0.1.2 - Changelog:
+* Gstreamer - First time audio/basic music player implimentation
+
+### 2016 OCT 05 BETA v0.1.1 - Changelog:
+* Added for reading text files
+* Tried to impliment audio (currently not working)
+
+### 2016 OCT 04 BETA v0.1.0 - Changelog:
+* Added side media preview for first time
+ * Currently only for previewing pictures
+ * BUG: Single-Click would be delayed by one image
+
+## Changelog - ALPHA
+
+### 2016 SEP 30 ALPHA v0.2.1 - Changelog:
+* Added cut, copy, and paste feature in menu
+* Added make directory feature in menu
+* Empty directory can now right click: Moved from tag bind right click to whole of treeview/list
+* Menu should unpost when click out of menu
 
 ### 2016 SEP 29 ALPHA v0.2.0 - Changelog:
 * It can now do multiple selection of items (files/directories)
@@ -91,7 +153,7 @@ It's important to put the "marttkfmanagerrc" file in your home directory as ".ma
 
 ### Future Dependencies
 
-* python-gstreamer
 * python-gobject
+* python-gst-1.0
 
 

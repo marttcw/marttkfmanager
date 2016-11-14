@@ -8,6 +8,7 @@ unzip:st -e unzip
 untar:st -e tar xvf
 music:st -e mpv
 midi:st -e timidity
+null:st
 [/TAG]
 
 [EXTENTION]
@@ -35,5 +36,6 @@ flac:music:Free Lossless Audio Codec
 mp3:music:MP3 File
 ogg:music:OGG Vorbis
 mid:midi:Music Instrument Digital Interface
+run:null:Run File
 [/EXTENTION]
 
