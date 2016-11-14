@@ -38,16 +38,6 @@ sudo apt install python-gi python3-gi \
     gstreamer1.0-libav
 ```
 
-Have to be installed outside of Debian repository - use python3-pip:
-
-* pyglet (maybe)
-* pydub (maybe)
-* sudo pip3 install pyglet pydub 
-
-Pip3 setup:
-
-* pip3 install --upgrade pip setuptools
-
 ## Configuration
 
 It's important to put the "marttkfmanagerrc" file in your home directory as ".marttkfmanagerrc" if you want to have a proper configuration file.
