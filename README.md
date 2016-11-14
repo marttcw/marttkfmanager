@@ -1,6 +1,8 @@
 # marttkfmanager
 A file manager made with tk
 
+![BETA v0.1.5 - Video player screenshot](screenshot_01.png)
+
 ## Keyboard bindings:
 
  Keybind's Actions                          | Binds
@@ -23,7 +25,6 @@ Based on Debian package names, these may differ in other distros.
 * tkinter
 * python-pil
 * python3-dev 
-* ffmpeg (maybe)
 
 In Debian/Ubuntu, install those gstreamer1.0 dependencies as follow:
 
@@ -37,6 +38,12 @@ sudo apt install python-gi python3-gi \
     gstreamer1.0-plugins-bad \
     gstreamer1.0-libav
 ```
+
+To cover over these dependencies:
+
+* python-gobject
+* python-gst-1.0
+* python-gstvideo
 
 ## Configuration
 
@@ -134,16 +141,8 @@ It's important to put the "marttkfmanagerrc" file in your home directory as ".ma
 ## To-Do; Plans for later releases:
 
 * Add find/search entrybox
-* Right click menu future features
- * Ability to delete file 
- * Ability to move file 
- * Ability to copy file 
 * Add configuration button and window
-* About window style change
+* Main and About window style change
 
-### Future Dependencies
-
-* python-gobject
-* python-gst-1.0
 
 
