@@ -9,6 +9,7 @@ A file manager made with tk
  -------------------------------------------|-------------
  Toggle Showing Hidden Files:               | `Ctrl-h`
  Refresh:                                   | `Ctrl-r`
+ Find:                                      | `Ctrl-f`
  Up Directory:                              | `Left`
  Change Directory/Open File:                | `Right`
  Move between Directory/Files:              | `Up/Down`
@@ -49,7 +50,35 @@ To cover over these dependencies:
 
 It's important to put the "marttkfmanagerrc" file in your home directory as ".marttkfmanagerrc" if you want to have a proper configuration file.
 
+## To-Do; Plans for later releases:
+
+* Add configuration button and window
+* Main and About window style change
+* Have tabs support
+* Have external hard drive/flash drive support
+* Different sorting list toggle
+* Custom execution buttons
+
 ## Changelog - BETA
+
+### 2016 NOV 18 BETA v0.1.7 - Changelog:
+* Added slider for both music and video player
+* Now autoplays when you select a different row if you set the music/video to play
+* Fixed some bugs (side viewer not destroyed after row change, music play refresh bug)
+* Auto-updates with the height of treeview/list of directories/files relative to directory change or window height change
+* Rewind/Forward seeker buttons jumps 5 seconds instead of 10
+
+### 2016 NOV 14 BETA v0.1.6 - Changelog:
+* Find function implemented - Binded as: `Ctrl-f`
+* Search function implemented - Binded as: `Ctrl-s`
+* Added 'Find' and 'Refresh' button on top frame
+* Fixed text side preview stuck bug 
+* Fixed up directory/change row error when video not a variable/as a NoneType
+* Prevents the side preview to be viewed when resolution is lower than the lower limit
+ * Less than 800 in width means no preview
+ * Only exception is the music preview which can be at any resolution
+* Make directory and Rename window redesigned
+* Deleting files now forced and one by one with each having per window opened then closed
 
 ### 2016 NOV 13 BETA v0.1.5 - Changelog:
 * Position of the Music Player changed from right-side to bottom
@@ -137,12 +166,5 @@ It's important to put the "marttkfmanagerrc" file in your home directory as ".ma
 * Directory entrybox binded to keyboard-enter 
 * Flexably uses between units (Bytes to YiB) on file sizes
 * \xa0 used instead of _
-
-## To-Do; Plans for later releases:
-
-* Add find/search entrybox
-* Add configuration button and window
-* Main and About window style change
-
 
 
