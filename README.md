@@ -1,7 +1,7 @@
 # marttkfmanager
 A file manager made with tk
 
-![BETA v0.1.5 - Video player screenshot](screenshot_01.png)
+![BETA v2.2 - Video player screenshot](screenshot_01.png)
 
 ## Keyboard bindings:
 
@@ -10,22 +10,29 @@ A file manager made with tk
  Toggle Showing Hidden Files:               | `Ctrl-h`
  Refresh:                                   | `Ctrl-r`
  Find:                                      | `Ctrl-f`
+ Search:                                    | `Ctrl-s`
+ Directory Input Bar:                       | `Ctrl-l`
  Up Directory:                              | `Left`
  Change Directory/Open File:                | `Right`
  Move between Directory/Files:              | `Up/Down`
  Move between Directory/Files in 10 steps:  | `Ctrl-Up/Down`
  Beginning/End file of the directory:       | `Home/End`
  Move scrollbar up/down:                    | `Pageup/Pagedown`
- Quit program:                              | `Ctrl-q`
-
+ New Tab:                                   | `Ctrl-t`
+ Switch up a tab                            | `Ctrl-Tab`
+ Exit Tab:                                  | `Ctrl-q`
+ Quit Program:                              | `Ctrl-Q`
+ 
 ## Dependencies
 
 Based on Debian package names, these may differ in other distros.
 
 * python3
-* tkinter
-* python-pil
 * python3-dev 
+* tkinter
+* tix
+* tix-dev
+* python-pil
 
 In Debian/Ubuntu, install those gstreamer1.0 dependencies as follow:
 
@@ -52,20 +59,38 @@ It's important to put the "marttkfmanagerrc" file in your home directory as ".ma
 
 ## To-Do; Plans for later releases:
 
-* Add configuration button and window
 * Main and About window style change
-* Have tabs support
 * Have external hard drive/flash drive support
 * Different sorting list toggle
 * Custom execution buttons
 
 ## Changelog - BETA
 
+### 2016 NOV 24 BETA v2.2 - Changelog:
+* Version number changed from vX.X.X system to vX.X
+ * vX.X.X system does not make sense in the way I decided on the version numbers
+* Add configuration button and window
+ * Partial used over lambda due to the way variable passing was handled
+
+### 2016 NOV 23 BETA v0.2.1 - Changelog:
+* Tabs bug fixes
+* Buttons no longer uses flat relief/style
+* Added logo on window decoration
+
+### 2016 NOV 21 BETA v0.2.0 - Changelog:
+* **Added tab support** (Big update)
+* Auto-updates resizes more by 100 times
+* Added midi support for music player
+* Added audio and subtitle change toggle button (Not all subtitles can works and change)
+* Audio/Video player style and text formatting changed slightly
+* Added logo in about page
+
 ### 2016 NOV 18 BETA v0.1.7 - Changelog:
 * Added slider for both music and video player
 * Now autoplays when you select a different row if you set the music/video to play
 * Fixed some bugs (side viewer not destroyed after row change, music play refresh bug)
-* Auto-updates with the height of treeview/list of directories/files relative to directory change or window height change
+* Auto-updates with the height of treeview/list of directories/files relative to directory change or window height change or directory refresh
+ * Also auto-updates width of images and videos
 * Rewind/Forward seeker buttons jumps 5 seconds instead of 10
 
 ### 2016 NOV 14 BETA v0.1.6 - Changelog:

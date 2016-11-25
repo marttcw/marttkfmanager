@@ -9,6 +9,7 @@ untar:st -e tar xvf
 music:st -e mpv
 midi:st -e timidity
 null:st
+browser:firefox
 [/TAG]
 
 [EXTENTION]
@@ -37,5 +38,8 @@ mp3:music:MP3 File
 ogg:music:OGG Vorbis
 mid:midi:Music Instrument Digital Interface
 run:null:Run File
+gif:browser:Graphics Interchange Format
+srt:text:SubRip Text File
+ass:text:SubStation Alpha
 [/EXTENTION]
 
