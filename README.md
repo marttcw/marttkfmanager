@@ -1,7 +1,7 @@
 # marttkfmanager
 A file manager made with tk
 
-![BETA v2.2 - Video player screenshot](screenshot_01.png)
+![BETA v3.0 - Video player screenshot](screenshot_01.png)
 
 ## Keyboard bindings:
 
@@ -65,6 +65,28 @@ It's important to put the "marttkfmanagerrc" file in your home directory as ".ma
 * Custom execution buttons
 
 ## Changelog - BETA
+
+### 2016 NOV 28 BETA v3.0 - Changelog:
+* **User Interface refinement update**
+* New user interface
+ * Navigation bar and buttons now in one row
+ * Uses unicode symbols
+* Fixed the side frame overriding the top 2 navigation frames
+ * Having the top 2 frames set to main instead of inside tab_frame
+* tab_frame no longer an array, no need for it to be one
+* Fixing the directory not changing after the music/video player playing to change tab bug
+* Auto-updates player more by 10 times
+ * Allows for a slightly faster video/music load
+* Slider resolution reduced from 0.5 to 0.1 - now more accurate/on point when using the slider
+* Closing configuration button no longer refresh directory
+* side_frame mainloop turned to update to fix the rare bug crash
+* Images over the height of the tree/directory list get set to the size of the tree/directory list
+* Auto-Image resize now smooth (No longer flickers a lot when resizing)
+ * No longer destroy then create, but rather just change the configuration of image 
+* bottom_frame/Information frame does not get overlapped by image viewer/side_frame
+* Without the .marttkfmanagerrc file now reads for the marttkfmanagerrc_DEFAULT file
+* Menu, list_frame, and side_frame no longer an array
+* Added the ability to change between ascending and descending name
 
 ### 2016 NOV 24 BETA v2.2 - Changelog:
 * Version number changed from vX.X.X system to vX.X

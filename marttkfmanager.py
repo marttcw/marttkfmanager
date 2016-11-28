@@ -1,5 +1,5 @@
 # MartTKfManager - Martin's File Manager (TK version)
-version = "BETA v2.2"
+version = "BETA v3.0"
 cur_year = "2016"
 
 from tkinter import *
@@ -38,33 +38,34 @@ min_tab = 0
 tab_bg_colour_inactive = '#cccccc'
 tab_bg_colour_active = '#99ccff'
 viable_tabs = []
+sort_type = 'Name Ascending'
 
 def menu_l_add_command(menu_l):
-    menu_l[tab_num].add_command(label="Open", command=lambda: ext_prog(0))
-    menu_l[tab_num].add_command(label="Open with", command=lambda: ext_prog_alt())
-    menu_l[tab_num].add_command(label="Refresh Directory", command=lambda: dir_change_action(0, 0, 0))
-    menu_l[tab_num].add_command(label="Hide/Unhide hidden Files/Directory", command=lambda: toggle_hidden(0))
-    menu_l[tab_num].add_separator()
-    menu_l[tab_num].add_command(label="Cut", command=lambda: target_cut())
-    menu_l[tab_num].add_command(label="Copy", command=lambda: target_copy())
-    menu_l[tab_num].add_command(label="Paste", command=lambda: target_paste())
-    menu_l[tab_num].add_command(label="Make Directory", command=lambda: target_mkdir())
-    menu_l[tab_num].add_command(label="Duplicate", command=lambda: target_duplicate())
-    menu_l[tab_num].add_command(label="Rename", command=lambda: target_rename())
-    menu_l[tab_num].add_command(label="Delete", command=lambda: target_delete())
+    menu_l.add_command(label="Open", command=lambda: ext_prog(0))
+    menu_l.add_command(label="Open with", command=lambda: ext_prog_alt())
+    menu_l.add_command(label="Refresh Directory", command=lambda: dir_change_action(0, 0, 0))
+    menu_l.add_command(label="Hide/Unhide hidden Files/Directory", command=lambda: toggle_hidden(0))
+    menu_l.add_separator()
+    menu_l.add_command(label="Cut", command=lambda: target_cut())
+    menu_l.add_command(label="Copy", command=lambda: target_copy())
+    menu_l.add_command(label="Paste", command=lambda: target_paste())
+    menu_l.add_command(label="Make Directory", command=lambda: target_mkdir())
+    menu_l.add_command(label="Duplicate", command=lambda: target_duplicate())
+    menu_l.add_command(label="Rename", command=lambda: target_rename())
+    menu_l.add_command(label="Delete", command=lambda: target_delete())
 
 def tab_frame_label_changer(colour_new):
-    global tab_frame_label
+    global tab_frame_label, tab_num
     for itr in range(0, len(tab_frame_label)):
-        if tab_frame_label[itr][tab_num] != None:
-            tab_frame_label[itr][tab_num]['background']=colour_new
+        tab_frame_label[itr][tab_num]['background']=colour_new
     
 def conf_read():
     try:
         cf_file = open(home+'/.marttkfmanagerrc', 'r')
         cf_file = cf_file.readlines()
     except:                             # if the marttkfmanagerrc file is missing
-        cf_file = ['[TAG]\n', 'images:feh\n', 'videos:mpv\n', 'text:st -e vim\n', '[/TAG]\n', '\n', '[EXTENTION]\n', '*:text:Unknown File Type\n', 'rc:text:Configuration File\n', 'jpg:images:Joint Photographic Experts Group\n', 'jpeg:images:Joint Photographic Experts Group\n', 'png:images:Portable Network Graphic\n', 'mkv:videos:Matroska Multimedia Container\n', 'mp4:videos:MPEG-4\n', 'txt:text:Text File\n', 'c:text:C Source Code\n', 'py:text:Python Source Code\n', 'html:text:HTML File\n', 'htm:text:HTML File\n', 'php:text:PHP File\n', 'sh:text:Shell Script\n', '[/EXTENTION]\n', '\n', '\n']
+        cf_file = open(project_dir+'/marttkfmanagerrc_DEFAULT', 'r')
+        cf_file = cf_file.readlines()
     for itr in range(0, len(cf_file)):
         cf_file[itr] = cf_file[itr][:-1]
     cf_file.append('EXIT')
@@ -73,7 +74,6 @@ def conf_read():
 def window_destroy(conf_win, base_conf_win):
     conf_win.destroy()
     base_conf_win.destroy()
-    dir_change_action(0, 0, 0)
 
 def save_entry(editing_conf):
     new_file = []
@@ -167,7 +167,7 @@ def list_entry(conf_file):
     base_conf_win.mainloop()
 
 def conf_edit(): # GUI Configuration editor
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     conf_file = conf_read()
     list_entry(conf_file)
 
@@ -206,9 +206,9 @@ def sort_file(fetch):                   # fetch == 'TAG': Returns the tags_conf 
         return ext_conf_n
 
 def dir_change_action(operation, to_dir, pos_ch): # operation = 0 = Normal, operation = 1 = Find
-    global dir_info_01, tree, pos, access_info, playbin, is_playing, cur_dir_entry, cde_button, video, find_win, dir_changed, tab_frame_label
+    global dir_info_01, tree, pos, access_info, playbin, is_playing, cur_dir_entry, video, find_win, dir_changed, tab_frame_label
     dir_changed = True
-    side_destroyer(tab_num)
+    side_destroyer()
     if operation == 'FIND' or operation == 'SEARCH':
         if pos_ch != '':
             find_list = ['*'+pos_ch+'*', '*'+pos_ch.upper()+'*', '*'+pos_ch.lower()+'*', '*'+pos_ch.capitalize()+'*'] # Find list algorithm 
@@ -245,8 +245,6 @@ def dir_change_action(operation, to_dir, pos_ch): # operation = 0 = Normal, oper
     else:
         pos += pos_ch
         matching_list = 0
-        cur_dir_entry.destroy()
-        cde_button.destroy()
         if type(to_dir) is list:
             if ((pos >= 0 and pos_ch == -1) or (pos <= len(history) - 1 and pos_ch == 1)):
                 os.chdir(to_dir[pos])
@@ -277,13 +275,12 @@ def dir_change_action(operation, to_dir, pos_ch): # operation = 0 = Normal, oper
     tab_frame_label[1][tab_num].bind('<Button-1>', lambda event: goto_tab(tab_num_goto, 'CHANGE'))
     tab_frame_label[1][tab_num]['background']=tab_bg_colour_active
 
-    menu_l[tab_num].unpost()
-    dir_info_01.destroy()
+    menu_l.unpost()
     tree.destroy()
     main_list_dir(matching_list)
 
 def about():
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     about_win = Tk()
     about_win.title("MartTKfManager - About")
     about_win.resizable(width=False, height=False)
@@ -296,21 +293,44 @@ def about():
     ttk.Button(about_win, text="Close", command=about_win.destroy).pack(pady=15)
     about_win.mainloop()
 
+def sort_type_set(sort_type_pass):
+    global sort_type
+    sort_type = sort_type_pass
+    dir_change_action(0, 0, 0)
+
+def extra_menu_add_command(extra_menu):
+    extra_menu.add_command(label="About", command=about)
+    extra_menu.add_command(label="Find", command=lambda: file_search('FIND'))
+    extra_menu.add_command(label="Search", command=lambda: file_search('SEARCH'))
+    extra_menu.add_command(label="Name Ascending", command=lambda: sort_type_set('Name Ascending'))
+    extra_menu.add_command(label="Name Descending", command=lambda: sort_type_set('Name Descending'))
+    extra_menu.add_command(label="Config", command=conf_edit)
+    extra_menu.add_separator()
+    extra_menu.add_command(label="Exit", command=sys.exit)
+    return extra_menu
+
+def extra_menu_pops(event, extra_menu):
+    extra_menu.post(event.x_root, event.y_root)
+    extra_menu.focus_set()
+
 def main_buttons():
-    top_frame[tab_num].grid(row=0, column=0, sticky=N+S+W+E)
-    top2_frame[tab_num].grid(row=1, column=0, sticky=N+S+W+E)
-    ttk.Button(top_frame[tab_num], text="<-", command=lambda: dir_change_action(0, history, -1)).pack(side=LEFT)
-    ttk.Button(top_frame[tab_num], text="->", command=lambda: dir_change_action(0, history, 1)).pack(side=LEFT)
-    ttk.Button(top_frame[tab_num], text="~", command=lambda: dir_change_action(0, home, 1)).pack(side=LEFT)
-    ttk.Button(top_frame[tab_num], text="About", command=about).pack(side=LEFT)
-    ttk.Button(top_frame[tab_num], text="Exit", command=sys.exit).pack(side=LEFT)
-    ttk.Button(top_frame[tab_num], text="Find", command=lambda: file_search('FIND')).pack(side=LEFT)
-    ttk.Button(top_frame[tab_num], text="Search", command=lambda: file_search('SEARCH')).pack(side=LEFT)
-    ttk.Button(top_frame[tab_num], text="Refresh", command=lambda: dir_change_action(0, 0, 0)).pack(side=LEFT)
-    ttk.Button(top_frame[tab_num], text="Config", command=conf_edit).pack(side=LEFT)
+    extra_menu = Menu(main, tearoff=0)
+    extra_menu = extra_menu_add_command(extra_menu)
+    extra_menu.bind("<FocusOut>", lambda event: extra_menu.unpost())
+    MultiButton = Button(top_frame, text="\u2261", width=1)
+    MultiButton.pack(side=LEFT) # use optionmenu
+    MultiButton.bind('<Button-1>', lambda event: extra_menu_pops(event, extra_menu))
+    Button(top_frame, text="\u2190", width=1, command=lambda: dir_change_action(0, history, -1)).pack(side=LEFT)
+    Button(top_frame, text="\u2192", width=1, command=lambda: dir_change_action(0, history, 1)).pack(side=LEFT)
+    Button(top_frame, text="\u2302", width=1, command=lambda: dir_change_action(0, home, 1)).pack(side=LEFT)
+    cur_dir_entry = ttk.Entry(top_frame) # Current Directory Entry
+    cur_dir_entry.pack(side=LEFT, fill=X, expand=YES)
+    Button(top_frame, text="\u21B5", width=1, command=lambda: dir_change_action(0, cur_dir_entry.get(), 1)).pack(side=LEFT)
+    Button(top_frame, text="\u27F3", width=1, command=lambda: dir_change_action(0, 0, 0)).pack(side=LEFT)
+    return (cur_dir_entry, extra_menu)
 
 def file_sortout():
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     file_select, file_list = [], []
     for item_id in tree.selection():
         file_select += [tree.item(item_id)['text']]
@@ -367,11 +387,11 @@ def ext_prog_alt(): # EXT_RUN ALTERNATIVE
 def toggle_hidden(event):
     global show_hidden_files
     show_hidden_files = not show_hidden_files
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     dir_change_action(0, 0, 0)
 
 def target_duplicate():
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     list_of_list = file_sortout()
     file_list = list_of_list[0]
     for item_n in file_list:
@@ -407,13 +427,13 @@ def rename_win_func(file_list, file_select, item_n):
     rename_win.update()
 
 def target_rename():
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     list_of_list = file_sortout()
     if list_of_list[0] != []:
         rename_win_func(list_of_list[0], list_of_list[1], 0)
 
 def target_delete():
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     list_of_list = file_sortout()
     file_list = list_of_list[0]
     file_select = list_of_list[1]
@@ -432,18 +452,18 @@ def target_delete():
 
 def target_cut(): # 0 - Cut
     global file_list_clip
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     list_of_list = file_sortout()
     file_list_clip = list_of_list[0] + [0]
 
 def target_copy(): # 1 - Copy
     global file_list_clip
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     list_of_list = file_sortout()
     file_list_clip = list_of_list[0] + [1]
 
 def target_paste():
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     if file_list_clip[len(file_list_clip)-1] == 0: # Cut -> Paste acts like move
         subprocess.Popen(['mv']+file_list_clip[:-1]+[os.getcwd()+'/.'])
     elif file_list_clip[len(file_list_clip)-1] == 1: # Copy -> Paste acts like copy
@@ -456,7 +476,7 @@ def target_mkdir():
         subprocess.Popen(open_command)
         mkdir_win.destroy()
         dir_change_action(0, 0, 0)
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     mkdir_win = Tk()
     mkdir_win.title("MartTkfManager - Make Directory")
     mkdir_win.resizable(width=False, height=False)
@@ -487,7 +507,7 @@ def mus_info_update(info_type, item_media):
         mus_pos = time_convert(playbin.query_position(Gst.Format.TIME)[1]) 
         mus_time = mus_pos+' / '+mus_dur
         mus_disp.configure(text=mus_time)
-        side_frame[tab_num].after(1000, lambda: mus_info_update('INFO', item_media))
+        side_frame.after(100, lambda: mus_info_update('INFO', item_media))
     elif 'playbin' in globals() and info_type == 'INFO NAME':                                    # PLAYER INFORMATION FORMATTING
         mus_info_text = 'Playing: '+item_media
         if len(mus_info_text) > 40 and ('sa_show' in globals() and sa_show != None) :
@@ -503,19 +523,19 @@ def mus_info_update(info_type, item_media):
         if sa_count >= 20:
             sa_count = 0
             sa_show = None
-        side_frame[tab_num].after(100, lambda: mus_info_update('INFO NAME', item_media))
+        side_frame.after(100, lambda: mus_info_update('INFO NAME', item_media))
     elif 'playbin' in globals() and info_type == 'SCALE TOTAL':
         slider['to'] = playbin.query_duration(Gst.Format.TIME)[1]
         if slider['to'] == 0:
-            side_frame[tab_num].after(1000, lambda: mus_info_update('SCALE TOTAL', item_media))
+            side_frame.after(100, lambda: mus_info_update('SCALE TOTAL', item_media))
     elif 'playbin' in globals() and info_type == 'SCALE':
         if slider.get() - playbin.query_position(Gst.Format.TIME)[1] > 1000000000 or slider.get() - playbin.query_position(Gst.Format.TIME)[1] < -1000000000 :
             playbin.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH, slider.get())
     elif 'playbin' in globals() and info_type == 'SCALE UPDATE':
         slider.set(playbin.query_position(Gst.Format.TIME)[1])
-        side_frame[tab_num].after(1000, lambda: mus_info_update('SCALE UPDATE', item_media))
+        side_frame.after(100, lambda: mus_info_update('SCALE UPDATE', item_media))
 
-def side_destroyer(tab_type): # destroys the side_frame and its contents
+def side_destroyer(): # destroys the side_frame and its contents
     global side_frame, playbin, mus_info, video, img_label, text_render, is_playing, img_load, tab_frame
     if 'img_label' in globals() or 'text_render' in globals():    # Checks if image been displayed
         if 'img_label' in globals(): # Image
@@ -529,9 +549,9 @@ def side_destroyer(tab_type): # destroys the side_frame and its contents
         is_playing = False
     if 'video' in globals():
         video.destroy()
-    if side_frame[tab_type] != None:
-        side_frame[tab_type].destroy()
-        side_frame[tab_type] = Frame(tab_frame[tab_num], width=0, height=0)
+    if side_frame != None:
+        side_frame.destroy()
+        side_frame = Frame(tab_frame, width=0, height=0)
     mus_info = ''
 
 def side_file_preview(event):       # SIDE PREVIEW DEVELOPMENT
@@ -557,21 +577,21 @@ def side_file_preview(event):       # SIDE PREVIEW DEVELOPMENT
                 bus = playbin.get_bus()
                 bus.enable_sync_message_emission()
                 bus.connect('sync-message::element', on_sync_message, window_id)
-            mus_disp = Label(side_frame[tab_num])
+            mus_disp = Label(side_frame)
             mus_disp.pack(side=LEFT)
             mus_info_update('INFO', item_media)
             if player_type == 'VIDEO':
                 mus_info = Label(control)
             elif player_type == 'MUSIC':
-                mus_info = Label(side_frame[tab_num])
+                mus_info = Label(side_frame)
             mus_info.pack(side=LEFT)
             mus_info_update('INFO NAME', item_media)
-            slider = Scale(side_frame[tab_num], from_=0, showvalue=0, orient=HORIZONTAL, resolution=0.5, command=lambda event: mus_info_update('SCALE', item_media))
+            slider = Scale(side_frame, from_=0, showvalue=0, orient=HORIZONTAL, resolution=0.1, command=lambda event: mus_info_update('SCALE', item_media))
             mus_info_update('SCALE TOTAL', item_media)
             slider.pack(fill=X, padx=5)
             is_playing = True
             mus_info_update('SCALE UPDATE', item_media)
-            side_frame[tab_num].mainloop()
+            side_frame.update()                # RARE CRASH for .mainloop()
         elif state == 'PLAY' and is_playing == True:
             if playbin == None:
                 is_playing = False
@@ -648,64 +668,64 @@ def side_file_preview(event):       # SIDE PREVIEW DEVELOPMENT
     elif item_media[0] == '/':
         media_path = item_media
     if tag_get == 'images' and os.path.isdir(item_media) == False and main.winfo_width() >= 800:         # Per tags go with each proper instruction
-        side_frame[tab_num].grid(row=2, column=1, rowspan=2, sticky=N+S+W+E)
+        side_frame.grid(row=0, column=1, rowspan=2, sticky=N+S+W+E)
         try:
             img_load = Image.open(media_path)
             img_width, img_height = img_load.size
             new_img_width = int(main.winfo_width() / 2.4)
             new_img_height = int((img_height / img_width) * new_img_width)
-            if new_img_height >= main.winfo_height():
-                new_img_height = int(main.winfo_height() / 1.1)
+            if new_img_height >= tree.winfo_height():
+                new_img_height = tree.winfo_height()
                 new_img_width = int((img_width / img_height) * new_img_height)
             img_load = img_load.resize((new_img_width, new_img_height), Image.ANTIALIAS)
             img_render = ImageTk.PhotoImage(img_load)
-            img_label = Label(side_frame[tab_num], image=img_render)
+            img_label = Label(side_frame, image=img_render)
             img_label.image = img_render
             img_label.grid(row=0, column=0)
         except:
-            side_frame[tab_num].destroy()
+            side_frame.destroy()
     elif tag_get == 'text' and os.path.isdir(item_media) == False and file_ext == 'txt' and main.winfo_width() >= 800:
-        side_frame[tab_num].destroy()
-        side_frame[tab_num] = Frame(tab_frame[tab_num], width=150, height=250)
-        text_scrollbar = ttk.Scrollbar(side_frame[tab_num], orient=VERTICAL)
+        side_frame.destroy()
+        side_frame = Frame(tab_frame, width=150, height=250)
+        text_scrollbar = ttk.Scrollbar(side_frame, orient=VERTICAL)
         text_scrollbar.grid(row=0, column=1, rowspan=15, sticky=N+S)
-        side_frame[tab_num].grid(row=2, column=1, rowspan=2, sticky=N+S+W+E)
+        side_frame.grid(row=0, column=1, rowspan=2, sticky=N+S+W+E)
         text_load = open(media_path, 'r', encoding="ISO-8859-1").readlines()
-        text_render = Text(side_frame[tab_num], width=80, height=30, wrap=WORD, yscrollcommand=text_scrollbar.set)
+        text_render = Text(side_frame, width=80, height=30, wrap=WORD, yscrollcommand=text_scrollbar.set)
         for text_line in text_load:
             text_render.insert(END, text_line + '\n')
         text_render.grid(row=0, column=0)
         text_scrollbar.config(command=text_render.yview)
     elif (tag_get == 'music' or tag_get == 'midi') and os.path.isdir(item_media) == False: # MUSIC PLAYER
-        side_frame[tab_num].destroy()
-        side_frame[tab_num] = Frame(tab_frame[tab_num], width=150, height=50)
-        side_frame[tab_num].grid(row=4, column=0, rowspan=2, sticky=N+S+W+E) # under the list
-        play_button = Button(side_frame[tab_num], text='Play', command=lambda: on_player('PLAY', 'MUSIC', media_path))
-        pause_button = Button(side_frame[tab_num], text='Pause', command=lambda: on_player('PAUSE', 'MUSIC', media_path))
-        rewind_button = Button(side_frame[tab_num], text='<<', command=lambda: on_player('REWIND', 'MUSIC', media_path))
-        forward_button = Button(side_frame[tab_num], text='>>', command=lambda: on_player('FORWARD', 'MUSIC', media_path))
-        stop_button = Button(side_frame[tab_num], text='Stop', command=lambda: on_player('STOP', 'MUSIC', media_path))
+        side_frame.destroy()
+        side_frame = Frame(tab_frame, width=150, height=50)
+        side_frame.grid(row=1, column=0, rowspan=2, sticky=N+S+W+E) # under the list
+        play_button = Button(side_frame, text='\u23F4', width=1, command=lambda: on_player('PLAY', 'MUSIC', media_path))          # NOTED DURING RARE CRASH
+        pause_button = Button(side_frame, text='\u23F8', width=1, command=lambda: on_player('PAUSE', 'MUSIC', media_path))
+        rewind_button = Button(side_frame, text='\u23EA', width=1, command=lambda: on_player('REWIND', 'MUSIC', media_path))
+        forward_button = Button(side_frame, text='\u23E9', width=1, command=lambda: on_player('FORWARD', 'MUSIC', media_path))
+        stop_button = Button(side_frame, text='\u23F9', width=1, command=lambda: on_player('STOP', 'MUSIC', media_path))
         rewind_button.pack(side=LEFT)
         play_button.pack(side=LEFT)
         pause_button.pack(side=LEFT)
         forward_button.pack(side=LEFT)
         stop_button.pack(side=RIGHT)
     elif tag_get == 'videos' and os.path.isdir(item_media) == False and main.winfo_width() >= 800: # VIDEO PLAYER
-        side_frame[tab_num].destroy()
-        side_frame[tab_num] = Frame(tab_frame[tab_num])
-        side_frame[tab_num].grid(row=2, column=1, columnspan=50, rowspan=2, sticky=N+S+W+E)
-        video = Frame(side_frame[tab_num], bg="#000000", width=int(main.winfo_width() / 2.4))
+        side_frame.destroy()
+        side_frame = Frame(tab_frame)
+        side_frame.grid(row=0, column=1, columnspan=50, rowspan=2, sticky=N+S+W+E)
+        video = Frame(side_frame, bg="#000000", width=int(main.winfo_width() / 2.4))
         video.pack(expand=YES, fill=BOTH)
         window_id = video.winfo_id()
-        control = Frame(side_frame[tab_num])
+        control = Frame(side_frame)
         control.pack(fill=X)
-        play_button = Button(control, text='Play', command=lambda: on_player('PLAY', 'VIDEO', media_path))
-        pause_button = Button(control, text='Pause', command=lambda: on_player('PAUSE', 'VIDEO', media_path))
-        rewind_button = Button(control, text='<<', command=lambda: on_player('REWIND', 'VIDEO', media_path))
-        forward_button = Button(control, text='>>', command=lambda: on_player('FORWARD', 'VIDEO', media_path))
-        sub_tog_button = Button(control, text='Sub', command=lambda: on_player('SUB', 'VIDEO', media_path))
-        aud_tog_button = Button(control, text='Aud', command=lambda: on_player('AUD', 'VIDEO', media_path))
-        stop_button = Button(control, text='Stop', command=lambda: on_player('STOP', 'VIDEO', media_path))
+        play_button = Button(control, text='\u23F4', width=1, command=lambda: on_player('PLAY', 'VIDEO', media_path))
+        pause_button = Button(control, text='\u23F8', width=1, command=lambda: on_player('PAUSE', 'VIDEO', media_path))
+        rewind_button = Button(control, text='\u23EA', width=1, command=lambda: on_player('REWIND', 'VIDEO', media_path))
+        forward_button = Button(control, text='\u23E9', width=1, command=lambda: on_player('FORWARD', 'VIDEO', media_path))
+        sub_tog_button = Button(control, text='SUB', width=1, command=lambda: on_player('SUB', 'VIDEO', media_path))
+        aud_tog_button = Button(control, text='AUD', width=1, command=lambda: on_player('AUD', 'VIDEO', media_path))
+        stop_button = Button(control, text='\u23F9', width=1, command=lambda: on_player('STOP', 'VIDEO', media_path))
         rewind_button.pack(side=LEFT)
         play_button.pack(side=LEFT)
         pause_button.pack(side=LEFT)
@@ -713,8 +733,8 @@ def side_file_preview(event):       # SIDE PREVIEW DEVELOPMENT
         stop_button.pack(side=RIGHT, padx=5)
         sub_tog_button.pack(side=RIGHT)
         aud_tog_button.pack(side=RIGHT)
-    elif side_frame[tab_num] in globals():
-        side_destroyer(tab_num)
+    elif side_frame in globals():
+        side_destroyer()
 
 def file_search(search_type): # File find and search function
     global find_win
@@ -731,33 +751,35 @@ def file_search(search_type): # File find and search function
     find_input.focus_set()
 
 def tree_height_updater(old_height, old_width, old_dir, height, width, cwd, old_num):
-    global tree, side_frame, img_load, img_label, media_path, video, dir_changed, tab_frame, tab_num, viable_tabs
-    if 'tree' in globals() and (height != old_height or cwd != old_dir or dir_changed == True or tab_num != old_num):
-        if height >= 800:
-            tree['height'] = int(height * 0.04259)
-        elif height >= 700:
-            tree['height'] = int(height * 0.04059)
-        elif height >= 600:
-            tree['height'] = int(height * 0.03859)
-        else:
-            tree['height'] = int(height * 0.03259)
-        old_height = height
-        old_dir = cwd
-        dir_changed = False
-        old_num = tab_num
+    global tree, side_frame, img_load, img_label, media_path, video, dir_changed, tab_frame, tab_num
+    if 'tree' in globals() and tree != None and (height != old_height or cwd != old_dir or dir_changed == True or tab_num != old_num):
+        try:
+            if height >= 800:
+                tree['height'] = int(height * 0.04459)
+            elif height >= 700:
+                tree['height'] = int(height * 0.04259)
+            elif height >= 600:
+                tree['height'] = int(height * 0.04059)
+            else:
+                tree['height'] = int(height * 0.03459)
+            old_height = height
+            old_dir = cwd
+            dir_changed = False
+            old_num = tab_num
+        except:
+            pass
     if 'side_frame' in globals() and (width != old_width):
         if 'img_label' in globals() and 'img_load' in globals() and img_label != None and img_load != None:
-            img_label.destroy()
             img_load = Image.open(media_path)
             img_width, img_height = img_load.size
             new_img_width = int(width / 2.4)
             new_img_height = int((img_height / img_width) * new_img_width)
-            if new_img_height >= height:
-                new_img_height = int(height / 1.1)
+            if new_img_height >= tree.winfo_height():
+                new_img_height = tree.winfo_height()
                 new_img_width = int((img_width / img_height) * new_img_height)
             img_load = img_load.resize((new_img_width, new_img_height), Image.ANTIALIAS)
             img_render = ImageTk.PhotoImage(img_load)
-            img_label = Label(side_frame[tab_num], image=img_render)
+            img_label.configure(image=img_render)
             img_label.image = img_render
             img_label.grid(row=0, column=0)
         elif 'video' in globals() and video != None:
@@ -770,14 +792,14 @@ def tree_height_updater(old_height, old_width, old_dir, height, width, cwd, old_
 
 def bind_cur_dir_entry(event):
     global menu_l, cur_dir_entry
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     cur_dir_entry.focus_set()
 
 def row_change(event, pos_change):
     global id_pos, is_playing, playbin, tree, id_list
-    side_destroyer(tab_num)
+    side_destroyer()
     side_file_preview(event)
-    menu_l[tab_num].unpost()
+    menu_l.unpost()
     tree.focus_set()
     id_pos += pos_change
     if id_pos < 0 or pos_change == 0:
@@ -787,33 +809,27 @@ def row_change(event, pos_change):
     tree.focus(id_list[id_pos])
 
 def r_click(event): # RIGHT CLICK MENU
-    menu_l[tab_num].post(event.x_root, event.y_root)
-
-def r_unpost(event):
-    try:
-        menu_l[tab_num].unpost()
-    except:
-        pass
+    menu_l.post(event.x_root, event.y_root)
 
 def main_list_dir(matching_list):
-    global history, dir_info_01, show_hidden_files, tree, access_info, id_pos, mus_info, cur_dir_entry, cde_button, tab_frame, id_list
+    global history, dir_info_01, show_hidden_files, tree, access_info, id_pos, mus_info, cur_dir_entry, tab_frame, id_list
             
-    cur_dir_entry = ttk.Entry(top2_frame[tab_num]) # Current Directory Entry
-    cur_dir_entry.grid(row=0, column=0, sticky=W+E, columnspan=10)
     cur_dir_entry.delete(0, 'end') 
     cur_dir_entry.insert(0, os.getcwd())
     cur_dir_entry.bind('<Return>', lambda event: dir_change_action(0, cur_dir_entry.get(), 1))
-    cde_button = ttk.Button(top2_frame[tab_num], text="Go", width=10, command=lambda: dir_change_action(0, cur_dir_entry.get(), 1))
-    cde_button.grid(row=0, column=11)
-
+    
     row_place, col_place = 2, 0
     dir_ls = os.listdir(os.getcwd())
-    dir_ls.sort()
 
-    list_frame[tab_num].grid(row=2, column=0, sticky=N+W+E)
-    scrollbar = ttk.Scrollbar(list_frame[tab_num], orient=VERTICAL)
+    if sort_type == 'Name Ascending':
+        dir_ls.sort()
+    elif sort_type == 'Name Descending':
+        dir_ls.sort(reverse=True)
+
+    list_frame.grid(row=0, column=0, sticky=N+W+E)
+    scrollbar = ttk.Scrollbar(list_frame, orient=VERTICAL)
     scrollbar.grid(row=0, column=20, rowspan=15, sticky=N+S)
-    tree = ttk.Treeview(list_frame[tab_num], columns=('size', 'last_mod', 'uid_gid', 'ext'), yscrollcommand=scrollbar.set) #  height=46,  when 1080px height
+    tree = ttk.Treeview(list_frame, columns=('size', 'last_mod', 'uid_gid', 'ext'), yscrollcommand=scrollbar.set) #  height=46,  when 1080px height
     tree.grid(row=0, column=0, columnspan=20, sticky=W+E+N+S)
     tree.column('#0', width=300, anchor='w')
     tree.heading('#0', text='Filename')
@@ -875,12 +891,14 @@ def main_list_dir(matching_list):
     tree.bind('<Button-3>', r_click)
     scrollbar.config(command=tree.yview)
 
-    bottom_frame[tab_num].grid(row=3, column=0, sticky=N+W+E)
+    bottom_frame.grid(row=3, column=0, columnspan=2, sticky=N+W+E)
     sizestat = os.statvfs('/')
     lower_info_text = 'Total overall/directories/files: '+str(total_dir+total_file)+'/'+str(total_dir)+'/'+str(total_file)+'    Hidden files shown: '+str(show_hidden_files)+'    Free Space: '+str(human_readable_size(sizestat.f_frsize * sizestat.f_bfree))+'    Total Space: '+str(human_readable_size(sizestat.f_frsize * sizestat.f_blocks))+access_info
-    dir_info_01 = Label(bottom_frame[tab_num], text=lower_info_text)
-    dir_info_01.grid(row=20, column=0, columnspan=8, sticky='w')
-
+    if 'dir_info_01' not in globals():
+        dir_info_01 = Label(bottom_frame, text=lower_info_text)
+        dir_info_01.grid(row=0, column=0, columnspan=8, sticky='w')
+    else:
+        dir_info_01.configure(text=lower_info_text)
 
 def add_button(itr_tab):
     global tab_frame, tab_num, tab_frame_label, tab_frame_title, tab_show_frame, tab_frame_label_exit
@@ -892,44 +910,38 @@ def add_button(itr_tab):
     tab_frame_label[0][itr_tab+1].pack(side=LEFT)
 
 def add_tab(new):
-    global tab_frame, tab_num, tab_frame_label, tab_frame_title, tab_show_frame, top_frame, top2_frame, list_frame, side_frame, bottom_frame, tab_frame_dir, menu_l, viable_tabs
+    global tab_frame, tab_num, tab_frame_label, tab_frame_title, tab_show_frame, list_frame, side_frame, tab_frame_dir, viable_tabs, menu_l
     if new == False:
-        side_destroyer(tab_num)
-        tab_frame[tab_num].destroy()
+        side_destroyer()
+        tab_frame.destroy()
         tab_frame_label_changer(tab_bg_colour_inactive)
-        tab_frame += [Frame(main)]
+        tab_frame = Frame(main)
         tab_frame_title += [home]
-        tab_frame_dir += [os.getcwd()]
-        tab_num = len(tab_frame) - 1
+        tab_frame_dir += [home]
+        tab_num = len(tab_frame_title) - 1
         viable_tabs += [tab_num]
     else:
-        tab_frame = [Frame(main)]
+        tab_frame = Frame(main)
         tab_frame_title = [home]
         tab_frame_dir = [os.getcwd()]
         viable_tabs += [0]
     os.chdir(home) 
     
-    tab_frame[tab_num].grid_columnconfigure(0, weight=1, minsize = 480)
-    tab_frame[tab_num].grid_rowconfigure(0, minsize = 40)
-    tab_frame[tab_num].grid(row=2, column=0, sticky=N+S+W+E)
-    tab_frame[tab_num].grid_propagate(True)
+    tab_frame.grid_columnconfigure(0, weight=1, minsize = 480)
+    tab_frame.grid_rowconfigure(0, minsize = 40)
+    tab_frame.grid(row=2, column=0, sticky=N+S+W+E)
+    tab_frame.grid_propagate(True)
     
     if new == False:
-        top_frame += [Frame(tab_frame[tab_num])]
-        top2_frame += [Frame(tab_frame[tab_num])]
-        list_frame += [Frame(tab_frame[tab_num])]
-        side_frame += [Frame(tab_frame[tab_num])]
-        bottom_frame += [Frame(tab_frame[tab_num])]
-    else:
-        top_frame = [Frame(tab_frame[tab_num])]
-        top2_frame = [Frame(tab_frame[tab_num])]
-        list_frame = [Frame(tab_frame[tab_num])]
-        side_frame = [Frame(tab_frame[tab_num])]
-        bottom_frame = [Frame(tab_frame[tab_num])]
+        side_frame.destroy()
+        list_frame.destroy()
+        menu_l.destroy()
 
-    top_frame[tab_num].columnconfigure(0, weight=1)
-    top2_frame[tab_num].columnconfigure(0, weight=1)
-    list_frame[tab_num].columnconfigure(0, weight=1)
+    side_frame = Frame(tab_frame)
+    list_frame = Frame(tab_frame)
+    list_frame.columnconfigure(0, weight=1)
+    menu_l = Menu(tab_frame, tearoff=0)
+    menu_l_add_command(menu_l)
 
     tab_frame_label[0].append(Frame(tab_show_frame))
     tab_frame_label[1].append(Label(tab_frame_label[0][tab_num], text=tab_frame_title[tab_num]))
@@ -942,75 +954,65 @@ def add_tab(new):
     tab_frame_label[1][tab_num].bind('<Button-1>', lambda event: goto_tab(tab_num_local, 'CHANGE'))
     tab_frame_label_changer(tab_bg_colour_active)
     add_button(tab_num)
-
-    if new == False:
-        menu_l += [Menu(tab_frame[tab_num], tearoff=0)]
-    else:
-        menu_l = [Menu(tab_frame[tab_num], tearoff=0)]
-    menu_l_add_command(menu_l)
-    
-    main_buttons()
+        
     main_list_dir(0)
     if new == False:
-        tab_frame[tab_num].update()
+        tab_frame.update()
 
 def goto_tab(goto_num, go_type): # go_type - EXIT (from exit_tab) or CHANGE
-    global tab_frame, tab_num, tab_frame_label, tab_frame_title, tab_show_frame, top_frame, top2_frame, list_frame, side_frame, bottom_frame, tab_frame_dir, video, playbin, min_tab
+    global tab_frame, tab_num, tab_frame_label, tab_frame_title, tab_show_frame, list_frame, side_frame, tab_frame_dir, playbin, min_tab, menu_l
     if goto_num > viable_tabs[-1]:
         goto_num = viable_tabs[0]
-    if tab_frame[goto_num] == None and go_type == 'BINDING':
+    if tab_frame_title[goto_num] == None and go_type == 'BINDING':
         original_goto = goto_num
         try:
-            while tab_frame[goto_num] == None:
+            while tab_frame_title[goto_num] == None:
                 goto_num += 1
         except IndexError:
             goto_num = original_goto
-            while tab_frame[goto_num] == None:
+            while tab_frame_title[goto_num] == None:
                 goto_num += 1
     if go_type == 'CHANGE' or go_type == 'BINDING':
-        side_destroyer(tab_num)
-        tab_frame[tab_num].destroy()
+        side_destroyer()
+        tab_frame.destroy()
         tab_frame_label_changer(tab_bg_colour_inactive)
         tab_num = goto_num
         tab_frame_label_changer(tab_bg_colour_active)
     elif go_type == 'EXIT':
-        for itr in range(0, len(tab_frame)):
-            if (itr != min_tab or itr != goto_num) and tab_frame[itr] != None:
+        for itr in range(0, len(tab_frame_title)):
+            if (itr != min_tab or itr != goto_num) and tab_frame_title[itr] != None:
                 min_tab = itr
         tab_num = min_tab
         try:
             tab_frame_label_changer(tab_bg_colour_active)
         except:
             sys.exit()
-    tab_frame[tab_num] = Frame(main)
+    os.chdir(tab_frame_dir[tab_num])
+    tab_frame = Frame(main)
     main.title("MartTKfManager - "+tab_frame_dir[tab_num])
 
-    os.chdir(tab_frame_dir[tab_num])
-    tab_frame[tab_num].grid_columnconfigure(0, weight=1, minsize = 480)
-    tab_frame[tab_num].grid_rowconfigure(0, minsize = 40)
-    tab_frame[tab_num].grid(row=2, column=0, sticky=N+S+W+E)
-    tab_frame[tab_num].grid_propagate(True)
+    tab_frame.grid_columnconfigure(0, weight=1, minsize = 480)
+    tab_frame.grid_rowconfigure(0, minsize = 40)
+    tab_frame.grid(row=2, column=0, sticky=N+S+W+E)
+    tab_frame.grid_propagate(True)
 
-    top_frame[tab_num] = Frame(tab_frame[tab_num])
-    top2_frame[tab_num] = Frame(tab_frame[tab_num])
-    list_frame[tab_num] = Frame(tab_frame[tab_num])
-    side_frame[tab_num] = Frame(tab_frame[tab_num])
-    bottom_frame[tab_num] = Frame(tab_frame[tab_num])
+    side_frame.destroy()
+    list_frame.destroy()
+    menu_l.destroy()
 
-    top_frame[tab_num].columnconfigure(0, weight=1)
-    top2_frame[tab_num].columnconfigure(0, weight=1)
-    list_frame[tab_num].columnconfigure(0, weight=1)
-
-    menu_l[tab_num] = Menu(tab_frame[tab_num], tearoff=0)
+    side_frame = Frame(tab_frame)
+    list_frame = Frame(tab_frame)
+    list_frame.columnconfigure(0, weight=1)
+    menu_l = Menu(tab_frame, tearoff=0)
     menu_l_add_command(menu_l)
 
-    main_buttons()
+    dir_change_action(0,0,0)
     main_list_dir(0)
-    tab_frame[tab_num].update()
+    tab_frame.update()
 
 def exit_tab(itr_tab): # Still does not work
     global tab_num, tab_frame, tab_frame_label, tab_show_frame, tab_frame_title, viable_tabs
-    side_destroyer(itr_tab)
+    side_destroyer()
     tab_visible = 1
     for itr in range(0, len(viable_tabs)):
         try:
@@ -1020,20 +1022,8 @@ def exit_tab(itr_tab): # Still does not work
             break
     if viable_tabs == []:
         sys.exit()
-    for itr in range(0, len(tab_frame)):
-        if tab_frame[itr] != None:
-            tab_visible += 1
-    if tab_visible == 1:
-        sys.exit()
     else:
-        tab_frame[itr_tab].destroy()
-        tab_frame[itr_tab] = None
-        top_frame[itr_tab] = None 
-        top2_frame[itr_tab] = None
-        list_frame[itr_tab] = None
-        side_frame[itr_tab] = None
-        bottom_frame[itr_tab] = None
-        menu_l[itr_tab] = None
+        tab_frame.destroy()
         tab_frame_label[0][itr_tab].destroy()
         tab_frame_label[0][itr_tab] = None
         tab_frame_title[itr_tab] = None
@@ -1052,12 +1042,13 @@ for g_itr in range(0, 3):
     tab_frame_label.append([])
 tab_show_frame = Frame(main, height=10)
 tab_show_frame.grid(row=0, column=0, sticky=W+E)
+top_frame = Frame(main)
+bottom_frame = Frame(main)
+top_frame.columnconfigure(0, weight=1)
+top_frame.grid(row=1, column=0, sticky=N+S+W+E)
+cur_dir_entry, extra_menu = main_buttons()
 add_tab(True)
 tree_height_updater(0,0,'', main.winfo_height() - 20, main.winfo_width(), os.getcwd(), 0)
-menu_l = []
-
-menu_l += [Menu(tab_frame[tab_num], tearoff=0)]
-menu_l_add_command(menu_l)
 
 main.bind('<Control-h>', toggle_hidden)
 main.bind('<Control-r>', lambda event: dir_change_action(0, 0, 0))
@@ -1070,14 +1061,14 @@ main.bind('<Control-Down>', lambda event: row_change(event, 10))
 main.bind('<Home>', lambda event: row_change(event, 0))
 main.bind('<End>', lambda event: row_change(event, 2))
 main.bind('<Control-Q>', sys.exit)
-main.bind('<Button-1>', r_unpost)
+main.bind('<Button-1>', lambda event: menu_l.unpost())
 main.bind('<Control-f>', lambda event: file_search('FIND'))
 main.bind('<Control-s>', lambda event: file_search('SEARCH'))
 main.bind('<Control-t>', lambda event: add_tab(False))
 main.bind('<Control-q>', lambda event: exit_tab(tab_num))
 main.bind('<Control-Tab>', lambda event: goto_tab(tab_num+1, 'BINDING'))
 
-tab_frame[tab_num].configure(background="#EEE")
+tab_frame.configure(background="#EEE")
 ttk.Style().layout("Treeview", [('Treeview.treearea', {'sticky': 'nswe'})])
 
 main.mainloop()
