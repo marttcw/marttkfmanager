@@ -1,0 +1,245 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-02 22:49+0000\n"
+"PO-Revision-Date: 2016-12-03 15:37+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: marttkfmanager.py:60
+msgid "Open"
+msgstr "打開"
+
+#: marttkfmanager.py:61
+msgid "Open with"
+msgstr "打開用"
+
+#: marttkfmanager.py:62
+msgid "Refresh Directory"
+msgstr "刷新目錄"
+
+#: marttkfmanager.py:63
+msgid "Hide/Unhide hidden Files/Directory"
+msgstr "隱藏/取消隱藏隱藏的文件/目錄"
+
+#: marttkfmanager.py:65
+msgid "Cut"
+msgstr "切割"
+
+#: marttkfmanager.py:66
+msgid "Copy"
+msgstr "複製"
+
+#: marttkfmanager.py:67
+msgid "Paste"
+msgstr "貼上"
+
+#: marttkfmanager.py:68
+msgid "Make Directory"
+msgstr "製作目錄"
+
+#: marttkfmanager.py:69
+msgid "Duplicate"
+msgstr "重複"
+
+#: marttkfmanager.py:70 marttkfmanager.py:439
+msgid "Rename"
+msgstr "更改名稱"
+
+#: marttkfmanager.py:71
+msgid "Delete"
+msgstr "刪除"
+
+#: marttkfmanager.py:152 marttkfmanager.py:309
+msgid "Close"
+msgstr "關"
+
+#: marttkfmanager.py:153
+msgid "Save"
+msgstr "保存"
+
+#: marttkfmanager.py:165
+msgid "Add Tag"
+msgstr "添加標籤"
+
+#: marttkfmanager.py:168
+msgid "Add Extention"
+msgstr "添加擴展名"
+
+#: marttkfmanager.py:181
+msgid "Remove"
+msgstr "去掉"
+
+#: marttkfmanager.py:228 marttkfmanager.py:232 marttkfmanager.py:319
+#: marttkfmanager.py:1083
+msgid "FIND"
+msgstr "找"
+
+#: marttkfmanager.py:228 marttkfmanager.py:238 marttkfmanager.py:320
+#: marttkfmanager.py:1084
+msgid "SEARCH"
+msgstr "搜索"
+
+#: marttkfmanager.py:244 marttkfmanager.py:254
+msgid "Found "
+msgstr "找到"
+
+#: marttkfmanager.py:244 marttkfmanager.py:254
+msgid " items"
+msgstr "  項目"
+
+#: marttkfmanager.py:304
+msgid ""
+"MartTKfManager (Martin's File Manager (TK version))\n"
+"Version: "
+msgstr ""
+"MartTKfManager（Martin的文件管理器（TK版本））\n"
+"版："
+
+#: marttkfmanager.py:304
+msgid "Copyright (c) "
+msgstr "版權所有（c）"
+
+#: marttkfmanager.py:318
+msgid "About"
+msgstr "關於"
+
+#: marttkfmanager.py:319
+msgid "Find"
+msgstr "找"
+
+#: marttkfmanager.py:320
+msgid "Search"
+msgstr "搜索"
+
+#: marttkfmanager.py:321
+msgid "Name Ascending"
+msgstr "名稱升序"
+
+#: marttkfmanager.py:322
+msgid "Name Descending"
+msgstr "名稱降序"
+
+#: marttkfmanager.py:323
+msgid "Config"
+msgstr "配置"
+
+#: marttkfmanager.py:325
+msgid "Exit"
+msgstr "出口"
+
+#: marttkfmanager.py:395
+msgid "Open "
+msgstr "打開"
+
+#: marttkfmanager.py:395
+msgid " with..."
+msgstr "  帶..."
+
+#: marttkfmanager.py:400
+msgid "Go"
+msgstr "走"
+
+#: marttkfmanager.py:431
+msgid "Rename "
+msgstr "改名"
+
+#: marttkfmanager.py:431
+msgid " to..."
+msgstr "  至..."
+
+#: marttkfmanager.py:440
+msgid "Skip"
+msgstr "跳躍"
+
+#: marttkfmanager.py:441 marttkfmanager.py:506 marttkfmanager.py:767
+msgid "Cancel"
+msgstr "取消"
+
+#: marttkfmanager.py:462
+msgid "Deleting: "
+msgstr "刪除："
+
+#: marttkfmanager.py:499
+msgid "New Directory's name..."
+msgstr "新目錄名稱..."
+
+#: marttkfmanager.py:505
+msgid "Create"
+msgstr "創建"
+
+#: marttkfmanager.py:528
+msgid "Playing: "
+msgstr "玩："
+
+#: marttkfmanager.py:662
+msgid "Subtitle: "
+msgstr "字幕："
+
+#: marttkfmanager.py:664
+msgid "Audio: "
+msgstr "音頻："
+
+#: marttkfmanager.py:852
+msgid "Filename"
+msgstr "文件名"
+
+#: marttkfmanager.py:854
+msgid "Size"
+msgstr "尺寸"
+
+#: marttkfmanager.py:856
+msgid "Last Modified"
+msgstr "上一次更改"
+
+#: marttkfmanager.py:858
+msgid "Owner/Group"
+msgstr "所有者/組"
+
+#: marttkfmanager.py:860
+msgid "File type"
+msgstr "文件類型"
+
+#: marttkfmanager.py:863
+msgid "UP"
+msgstr "向上"
+
+#: marttkfmanager.py:863 marttkfmanager.py:879
+msgid "DIRECTORY"
+msgstr "目錄"
+
+#: marttkfmanager.py:913
+msgid "Total overall/directories/files: "
+msgstr "總體/目錄/文件："
+
+#: marttkfmanager.py:913
+msgid "Hidden files shown: "
+msgstr "隱藏文件顯示："
+
+#: marttkfmanager.py:913
+msgid "True"
+msgstr "真正"
+
+#: marttkfmanager.py:913
+msgid "False"
+msgstr "假"
+
+#: marttkfmanager.py:913
+msgid "Free Space: "
+msgstr "可用空間："
+
+#: marttkfmanager.py:913
+msgid "Total Space: "
+msgstr "總空間："
