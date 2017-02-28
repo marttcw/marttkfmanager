@@ -2,8 +2,6 @@
 A file manager made with tk
 
 ![BETA v5.0 - Video player screenshot](screenshot_01.png)
-![BETA v5.0 - Image viewer screenshot](screenshot_02.png)
-![BETA v5.0 - Audio player screenshot](screenshot_03.png)
 
 ## Keyboard bindings:
 
