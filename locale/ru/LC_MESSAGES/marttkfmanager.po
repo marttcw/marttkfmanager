@@ -1,0 +1,247 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-02 22:49+0000\n"
+"PO-Revision-Date: 2016-12-02 22:49+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-Basepath: .\n"
+
+#: marttkfmanager.py:60
+msgid "Open"
+msgstr "открыто"
+
+#: marttkfmanager.py:61
+msgid "Open with"
+msgstr "Открыть с"
+
+#: marttkfmanager.py:62
+msgid "Refresh Directory"
+msgstr "Справочник Обновить"
+
+#: marttkfmanager.py:63
+msgid "Hide/Unhide hidden Files/Directory"
+msgstr "Скрыть / Показать скрытые файлы / Каталог"
+
+#: marttkfmanager.py:65
+msgid "Cut"
+msgstr "Порез"
+
+#: marttkfmanager.py:66
+msgid "Copy"
+msgstr "копия"
+
+#: marttkfmanager.py:67
+msgid "Paste"
+msgstr "Вставить"
+
+#: marttkfmanager.py:68
+msgid "Make Directory"
+msgstr "создать каталог"
+
+#: marttkfmanager.py:69
+msgid "Duplicate"
+msgstr "дублировать"
+
+#: marttkfmanager.py:70 marttkfmanager.py:439
+msgid "Rename"
+msgstr "переименовывать"
+
+#: marttkfmanager.py:71
+msgid "Delete"
+msgstr "Удалить"
+
+#: marttkfmanager.py:152 marttkfmanager.py:309
+msgid "Close"
+msgstr "Закрыть"
+
+#: marttkfmanager.py:153
+msgid "Save"
+msgstr "Сохранить"
+
+#: marttkfmanager.py:165
+msgid "Add Tag"
+msgstr "Добавить метку"
+
+#: marttkfmanager.py:168
+msgid "Add Extention"
+msgstr "Добавить Удлинитель"
+
+#: marttkfmanager.py:181
+msgid "Remove"
+msgstr "Удалить"
+
+#: marttkfmanager.py:228 marttkfmanager.py:232 marttkfmanager.py:319
+#: marttkfmanager.py:1083
+msgid "FIND"
+msgstr "НАЙТИ"
+
+#: marttkfmanager.py:228 marttkfmanager.py:238 marttkfmanager.py:320
+#: marttkfmanager.py:1084
+msgid "SEARCH"
+msgstr "ПОИСК"
+
+#: marttkfmanager.py:244 marttkfmanager.py:254
+msgid "Found "
+msgstr "Найденный"
+
+#: marttkfmanager.py:244 marttkfmanager.py:254
+msgid " items"
+msgstr "  Предметы"
+
+#: marttkfmanager.py:304
+msgid ""
+"MartTKfManager (Martin's File Manager (TK version))\n"
+"Version: "
+msgstr ""
+"MartTKfManager (файловый менеджер (TK версия Мартина))\n"
+"Версия:"
+
+#: marttkfmanager.py:304
+msgid "Copyright (c) "
+msgstr "Авторские права (с)"
+
+#: marttkfmanager.py:318
+msgid "About"
+msgstr "Около"
+
+#: marttkfmanager.py:319
+msgid "Find"
+msgstr "найти"
+
+#: marttkfmanager.py:320
+msgid "Search"
+msgstr "Поиск"
+
+#: marttkfmanager.py:321
+msgid "Name Ascending"
+msgstr "Имя Возрастание"
+
+#: marttkfmanager.py:322
+msgid "Name Descending"
+msgstr "Имя по убыванию"
+
+#: marttkfmanager.py:323
+msgid "Config"
+msgstr "конфиг"
+
+#: marttkfmanager.py:325
+msgid "Exit"
+msgstr "Выход"
+
+#: marttkfmanager.py:395
+msgid "Open "
+msgstr "открыто"
+
+#: marttkfmanager.py:395
+msgid " with..."
+msgstr " с..."
+
+#: marttkfmanager.py:400
+msgid "Go"
+msgstr "Идти"
+
+#: marttkfmanager.py:431
+msgid "Rename "
+msgstr "переименовывать"
+
+#: marttkfmanager.py:431
+msgid " to..."
+msgstr "  чтобы ..."
+
+#: marttkfmanager.py:440
+msgid "Skip"
+msgstr "Пропускать"
+
+#: marttkfmanager.py:441 marttkfmanager.py:506 marttkfmanager.py:767
+msgid "Cancel"
+msgstr "Отмена"
+
+#: marttkfmanager.py:462
+msgid "Deleting: "
+msgstr "Удаление:"
+
+#: marttkfmanager.py:499
+msgid "New Directory's name..."
+msgstr "Новое имя справочника ..."
+
+#: marttkfmanager.py:505
+msgid "Create"
+msgstr "Создайте"
+
+#: marttkfmanager.py:528
+msgid "Playing: "
+msgstr "Игра: "
+
+#: marttkfmanager.py:662
+msgid "Subtitle: "
+msgstr "Субтитры: "
+
+#: marttkfmanager.py:664
+msgid "Audio: "
+msgstr "Аудио: "
+
+#: marttkfmanager.py:852
+msgid "Filename"
+msgstr "Имя файла"
+
+#: marttkfmanager.py:854
+msgid "Size"
+msgstr "Размер"
+
+#: marttkfmanager.py:856
+msgid "Last Modified"
+msgstr "Последнее изменение"
+
+#: marttkfmanager.py:858
+msgid "Owner/Group"
+msgstr "Владелец / Группа"
+
+#: marttkfmanager.py:860
+msgid "File type"
+msgstr "Тип файла"
+
+#: marttkfmanager.py:863
+msgid "UP"
+msgstr "ВВЕРХ"
+
+#: marttkfmanager.py:863 marttkfmanager.py:879
+msgid "DIRECTORY"
+msgstr "КАТАЛОГ"
+
+#: marttkfmanager.py:913
+msgid "Total overall/directories/files: "
+msgstr "Всего общие / каталоги / файлы: "
+
+#: marttkfmanager.py:913
+msgid "Hidden files shown: "
+msgstr "Скрытые файлы показано ниже: "
+
+#: marttkfmanager.py:913
+msgid "True"
+msgstr "Правда"
+
+#: marttkfmanager.py:913
+msgid "False"
+msgstr "Ложь"
+
+#: marttkfmanager.py:913
+msgid "Free Space: "
+msgstr "Свободное место: "
+
+#: marttkfmanager.py:913
+msgid "Total Space: "
+msgstr "Общая площадь: "

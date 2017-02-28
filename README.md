@@ -1,13 +1,16 @@
 # marttkfmanager
 A file manager made with tk
 
-![BETA v3.0 - Video player screenshot](screenshot_01.png)
+![BETA v5.0 - Video player screenshot](screenshot_01.png)
+![BETA v5.0 - Image viewer screenshot](screenshot_02.png)
+![BETA v5.0 - Audio player screenshot](screenshot_03.png)
 
 ## Keyboard bindings:
 
  Keybind's Actions                          | Binds
  -------------------------------------------|-------------
  Toggle Showing Hidden Files:               | `Ctrl-h`
+ Toggle fullscreen:                         | `F11`
  Refresh:                                   | `Ctrl-r`
  Find:                                      | `Ctrl-f`
  Search:                                    | `Ctrl-s`
@@ -18,10 +21,21 @@ A file manager made with tk
  Move between Directory/Files in 10 steps:  | `Ctrl-Up/Down`
  Beginning/End file of the directory:       | `Home/End`
  Move scrollbar up/down:                    | `Pageup/Pagedown`
+ Stop Media:                                | `Ctrl-1`
+ Rewind Media by 5 seconds:                 | `Ctrl-2`
+ Play/Pause Media:                          | `Ctrl-3`
+ Forward Media by 5 seconds:                | `Ctrl-4`
+ Toggle Subtitle of Video:                  | `Ctrl-5`
+ Toggle Audio of Video:                     | `Ctrl-6`
  New Tab:                                   | `Ctrl-t`
  Switch up a tab                            | `Ctrl-Tab`
  Exit Tab:                                  | `Ctrl-q`
  Quit Program:                              | `Ctrl-Q`
+
+## Mouse bindings:
+
+* Left click on `ExD` brings menu of mounted external devices
+* Right click on `ExD` brings menu of mountable/unmountable mounted external devices
  
 ## Dependencies
 
@@ -33,6 +47,7 @@ Based on Debian package names, these may differ in other distros.
 * tix
 * tix-dev
 * python-pil
+* udisks2
 
 In Debian/Ubuntu, install those gstreamer1.0 dependencies as follow:
 
@@ -59,12 +74,51 @@ It's important to put the "marttkfmanagerrc" file in your home directory as ".ma
 
 ## To-Do; Plans for later releases:
 
-* Main and About window style change
-* Have external hard drive/flash drive support
-* Different sorting list toggle
 * Custom execution buttons
+* Better GUI configuration
+* (Maybe) drop-down for address entry
+* Bookmarks
+* Extra information on bottom about selected files
+* (Unlikely) icons/thumbnails per files
+* Gallery preview
+* Better tabs (buttons to move between tabs) 
 
 ## Changelog - BETA
+
+### 2017 FEB 23 BETA v5.0 - Changelog:
+* Text preview height size improved
+* Fix bug where resize gets less than 0 and unable to resize
+* Changed how labels are updated
+* Images gets updated/resized via window height
+* Text line does not add a `\n` any-more so it looks fine to read now
+* Increased volume from 0.5 to 1
+* Prevented the forward button to go pass the total media duration
+* Improved UI to resize adjustments
+* File Properties Window
+ * With ability to change permission (chmod, chgrp, chown)
+ * User can now see the file's/folder's properties
+
+### 2016 DEC 15 BETA v4.0 - Changelog:
+* **Automounting and external storage devices support**
+ * Basic interface for going to external storage devices
+ * Automounting when new storage device detected
+ * Can unmount and mount with right click menu on `ExD`
+* Added localization, language mostly done:
+ * Russian/русский
+ * Chinese Tradition/中國傳統的 (Taiwan (RoC), Hong Kong)
+ * Chinese Simplified/简体中文 (Mainland China (PRoC))
+ * Japanese/日本語
+* Language will only go by your system, the default and fallback is English
+* Added the ability to toggle fullscreen
+* Single click on item makes sense now: From Button-1 to ButtonRelease-1
+ * Side frame disappears when clicked on a directory
+* Changed the colour of the tabs
+* Text preview responsive to window resize
+* Fixed directory history to support multi-tabs and expected directory when forward/backward
+* Different and improve sorting list toggle
+ * Name, Time, Size, and File Type sorting
+* No longer give lambda error after playlist to other directory change
+ * Used partial instead of lambda (effected in the use of .unpost(), changed to call `unposter` function instead)
 
 ### 2016 NOV 28 BETA v3.0 - Changelog:
 * **User Interface refinement update**
