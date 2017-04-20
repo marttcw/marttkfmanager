@@ -1,5 +1,5 @@
 # MartTKfManager - Martin's File Manager (TK version)
-version = "BETA v5.0"
+version = "BETA v5.0a"
 cur_year = "2016 - 2017"
 
 from tkinter import *
@@ -30,7 +30,7 @@ except:
 GObject.threads_init()
 Gst.init(None)
 
-project_dir = os.getcwd()
+project_dir = '/usr/share/marttkfmanager'
 pos = 0
 home = os.path.expanduser("~") # home directory
 history = []
@@ -309,7 +309,7 @@ def about():
     about_win.resizable(width=False, height=False)
     about_win.geometry("%dx%d+%d+%d" % (400, 250, 0, 0))
     Label(about_win, text=_("MartTKfManager (Martin's File Manager (TK version))\nVersion: ")+version+"\n"+_("Copyright (c) ")+cur_year).pack(pady=15)
-    about_img_render = ImageTk.PhotoImage(Image.open(project_dir+"/beta_logo_big.png"), master=about_win)
+    about_img_render = ImageTk.PhotoImage(Image.open(project_dir+"/logo.png"), master=about_win)
     about_img_label = Label(about_win, image=about_img_render)
     about_img_label.image = about_img_render
     about_img_label.pack(pady=0)
@@ -1115,7 +1115,6 @@ def main_list_dir(matching_list):
     cur_dir_entry.insert(0, os.getcwd())
     cur_dir_entry.bind('<Return>', lambda event: dir_change_action(0, cur_dir_entry.get(), 1))
     
-    row_place, col_place = 2, 0
     dir_ls = os.listdir(os.getcwd())
     if sort_type[0:4] == 'Time':
         dir_ls_t = []
@@ -1386,7 +1385,7 @@ main = Tk()
 main.title("MartTKfManager - "+os.getcwd())
 main.attributes('-zoomed', True)
 main.state = False
-icon = PhotoImage(file=project_dir+'/beta_logo.png')
+icon = PhotoImage(file=project_dir+'/logo.png')
 main.call('wm', 'iconphoto', main._w, icon)
 main.geometry("%dx%d+%d+%d" % (970, 490, 0, 0))
 #main.grid_rowconfigure(0, weight=1)

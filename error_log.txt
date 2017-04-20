@@ -1,0 +1,14 @@
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/tkinter/__init__.py", line 1562, in __call__
+    return self.func(*args)
+  File "/usr/lib/python3.5/tkinter/__init__.py", line 608, in callit
+    func(*args)
+  File "marttkfmanager.py", line 943, in <lambda>
+    main.after(10, lambda: tree_height_updater(old_height, old_width, old_dir, main.winfo_height() - 20, main.winfo_width(), os.getcwd(), old_num))
+  File "marttkfmanager.py", line 927, in tree_height_updater
+    img_load = img_load.resize((new_img_width, new_img_height), Image.ANTIALIAS)
+  File "/usr/lib/python3/dist-packages/PIL/Image.py", line 1559, in resize
+    return self._new(self.im.resize(size, resample))
+ValueError: height and width must be > 0
+Inconsistency detected by ld.so: dl-close.c: 811: _dl_close: Assertion `map->l_init_called' failed!

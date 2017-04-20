@@ -2,8 +2,6 @@
 A file manager made with tk
 
 ![BETA v5.0 - Video player screenshot](screenshot_01.png)
-![BETA v5.0 - Image viewer screenshot](screenshot_02.png)
-![BETA v5.0 - Audio player screenshot](screenshot_03.png)
 
 ## Keyboard bindings:
 
@@ -46,7 +44,7 @@ Based on Debian package names, these may differ in other distros.
 * tkinter
 * tix
 * tix-dev
-* python-pil
+* python3-pil
 * udisks2
 
 In Debian/Ubuntu, install those gstreamer1.0 dependencies as follow:
@@ -68,6 +66,18 @@ To cover over these dependencies:
 * python-gst-1.0
 * python-gstvideo
 
+Installation dependencies:
+
+* cython3
+* gcc
+* python3-dev
+* pkg-config
+
+## Installation
+
+Just run the install.sh with root. Ex: `sudo ./install.sh` or `su -c "./install.sh"`
+You'll have to have the installation dependencies before you run the installation script.
+
 ## Configuration
 
 It's important to put the "marttkfmanagerrc" file in your home directory as ".marttkfmanagerrc" if you want to have a proper configuration file.
@@ -84,6 +94,10 @@ It's important to put the "marttkfmanagerrc" file in your home directory as ".ma
 * Better tabs (buttons to move between tabs) 
 
 ## Changelog - BETA
+
+### 2017 APR 20 BETA v5.0a - Changelog:
+* Added cython3 installation script and now points to /usr/share for logo and default configuration and /usr/bin for executable
+* Logo now fixed to one size, used for both about and window logo
 
 ### 2017 FEB 23 BETA v5.0 - Changelog:
 * Text preview height size improved
