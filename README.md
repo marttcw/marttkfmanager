@@ -1,9 +1,9 @@
 # marttkfmanager
 A file manager made with tk
 
-![BETA v5.0 - Video player screenshot](screenshot_01.png)
-![BETA v5.0 - Image viewer screenshot](screenshot_02.png)
-![BETA v5.0 - Audio player screenshot](screenshot_03.png)
+![BETA v5.0 - Screenshot](screenshot.png)
+
+# NOTICE: This repository/project is an archive and no further update will be done to it (no updates since 2017)
 
 ## Keyboard bindings:
 
